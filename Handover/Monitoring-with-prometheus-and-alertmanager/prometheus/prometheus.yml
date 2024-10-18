@@ -1,0 +1,28 @@
+global:
+  scrape_interval: 30s
+
+#File containing Prometheus alerting rules
+rule_files:
+  - alert_rules.yml
+
+#Alerting Configuration
+alerting:
+  alertmanagers:
+    - scheme: http
+      static_configs:
+        - targets: [ 'alertmanager:9093' ] #Address of the Alertmanager instance to which prometheus will send alerts.
+
+#Jobs that Prometheus will scrape for metrics
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 1m
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'node' #scrapes node metrics
+    static_configs:
+      - targets: ['node-exporter:9100']
+
+  - job_name: 'dummy_node'
+    static_configs:
+      - targets: ['localhost:1234']
