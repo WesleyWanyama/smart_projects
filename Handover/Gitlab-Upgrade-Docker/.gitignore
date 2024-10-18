@@ -1,0 +1,5 @@
+*socket
+data/gitaly/run/
+*logs
+data/postgresql/.s.PGSQL.5432
+data/postgresql/data/pg_stat_tmp/db_0.tmp

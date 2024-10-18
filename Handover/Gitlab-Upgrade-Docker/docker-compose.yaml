@@ -1,0 +1,60 @@
+version: '3.8'
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:15.11.13-ce.0
+    container_name: gitlab
+    restart: always
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://127.0.0.1'
+        # letsencrypt['enable'] = false
+        # gitlab_rails['gitlab_shell_ssh_port'] = 22
+        # nginx['ssl_certificate'] = "/etc/gitlab/ssl/selfsigned.crt"
+        # nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/selfsigned.key"
+    ports:
+      - '8181:80'
+      - '443:443'
+      - '22:22'
+    volumes:
+      - ./config:/etc/gitlab
+      - ./logs:/var/log/gitlab
+      - ./data:/var/opt/gitlab
+      # - './ssl:/etc/gitlab/ssl'
+    shm_size: '256m'
+    networks:
+      - gitlab
+
+  runner1:
+    image: gitlab/gitlab-runner:latest
+    container_name: gitlab-runner-1
+    restart: always
+    volumes:
+      - ./runner1-config:/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - gitlab
+
+  runner2:
+    image: gitlab/gitlab-runner:latest
+    container_name: gitlab-runner-2
+    restart: always
+    volumes:
+      - ./runner2-config:/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - gitlab
+  
+  runner3:
+    image: gitlab/gitlab-runner:latest
+    container_name: gitlab-runner-3
+    restart: always
+    volumes:
+      - ./runner3-config:/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - gitlab
+
+networks:
+  gitlab:
+    name: gitlab-network
+    
