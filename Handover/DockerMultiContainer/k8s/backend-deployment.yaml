@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: spring-backend:v19
+        ports:
+        - containerPort: 8080
+        env:
+        - name: JDBC_URL
+          value: jdbc:postgresql://database:5432/demodb
+ 

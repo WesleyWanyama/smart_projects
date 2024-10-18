@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  # frontend:
+  #   restart: always
+  #   image: react-frontend:v10
+  #   container_name: frontend
+  #   ports:
+  #     - "3000:443"
+  #   # networks:
+  #   #   - frontend-backend
+
+  backend:
+    restart: always
+    image: spring-backend:v22
+    container_name: backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    # networks:
+    #   - frontend-backend
+
+  # database:
+  #   restart: always
+  #   image: postgres:latest
+  #   container_name: database
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     POSTGRES_DB: demodb
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: Branajay
+  #   volumes:
+  #     - ./postgres_data:/var/lib/postgresql/data
+
+  postgres:
+    image: postgres:13
+    container_name: postgres13
+    restart: always
+    environment:
+      POSTGRES_DB: demodb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Branajay
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+    # networks:
+    #   - frontend-backend
+
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: nginx
+  #   volumes:
+  #   - ./nginx:/etc/nginx/conf.d
+  #   ports:
+  #   - "443:443"
+  #   depends_on:
+  #     - frontend
+  #     - backend
+    # networks:
+    #   - frontend-backend
+
+  # haproxy:
+  #   image: haproxy:latest
+  #   container_name: haproxy
+  #   volumes:
+  #     - ./haproxy:/usr/local/etc/haproxy
+  #   ports:
+  #     - "443:443"
+    # networks:
+    #   - frontend-backend
+
+# networks:
+#   frontend-backend:
+#     name: frontend-backend
+#     driver: bridge
+
+# volumes:
+#   postgres_data:
+ 
+    
+
