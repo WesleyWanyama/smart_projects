@@ -1,0 +1,9 @@
+#Version of the Compose file
+version: '3'
+services:
+  sample-app:
+  #The Docker Image that will be used to run the container for the above service
+    image: wesley3015/sample-app:v1
+    #Port mapping between the Docker container and the host machine
+    ports:
+      - "8080:80"
