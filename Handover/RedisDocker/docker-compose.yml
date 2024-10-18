@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  spring:
+    image: spring_redis:v3
+    container_name: spring
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis_a
+      - redis_b
+      - haproxy_redis
+
+  redis_a:
+    image: redis:latest
+    container_name: redis_a
+    ports:
+      - "4671:6379"
+
+  redis_b:
+    image: redis:latest
+    container_name: redis_b
+    ports:
+      - "4672:6379"
+
+  haproxy_redis:
+    image: haproxy:2.2
+    container_name: haproxy_redis
+    ports:
+      - "6379:6379"
+      - "8404:8404"
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
