@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-db
+  template:
+    metadata:
+      labels:
+        app: mysql-db
+    spec:
+      containers:
+      - name: mysql-db
+        image: mysql:8.0.37
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_DATABASE
+          value: demodb
+        - name: MYSQL_ROOT_PASSWORD
+          value: Branajay
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mysql-data
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "512Mi"          
+          limits:
+            cpu: "500m"
+            memory: "1024Mi"
+      volumes:
+      - name: mysql-data
+        
+       
